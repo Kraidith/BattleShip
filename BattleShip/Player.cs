@@ -1,25 +1,19 @@
 ﻿using Battleship;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace BattleShip
 {
     internal class Player : BasePlayer
     {
 
 
-        public void PlaceShips()
+        public override void PlaceShips()
         {
-            List<Ship> shipsToPlace = new List<Ship>();
+            List<Ship> shipsToPlace = new List<Ship>
             {
-                new Ship("Carrier", 5);
-                new Ship("BattleShip", 4);
-                new Ship("Cruiser", 3);
-                new Ship("Submarine", 3);
-                new Ship("Destroyer", 2);
+                new Ship("Carrier", 5),
+                new Ship("BattleShip", 4),
+                new Ship("Cruiser", 3),
+                new Ship("Submarine", 3),
+                new Ship("Destroyer", 2)
             };
             foreach(var ship in shipsToPlace)
             {
@@ -34,7 +28,7 @@ namespace BattleShip
                     int column = int.Parse(Console.ReadLine());
                     Console.WriteLine("Enter direction (H for horizontal, V for vertical)");
                     string direction = Console.ReadLine().ToUpper();
-                    placed = Grid.PlaceShip(ship, row, column, direction);
+                    placed = grid.PlaceShip(ship, row, column, direction);
                     if(!placed)
                     {
                         Console.WriteLine("Invalid placement. Try Again");
@@ -42,8 +36,5 @@ namespace BattleShip
                 }
             }
         }
-
-
-
     }
 }

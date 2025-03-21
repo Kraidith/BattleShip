@@ -1,4 +1,6 @@
-﻿namespace Battleship
+﻿using System.ComponentModel.Design;
+
+namespace Battleship
 {
     class Grid
     {
@@ -79,9 +81,9 @@
 
         public bool MakeGuess(int x, int y)
         {
-            if (Board[x, y] == 'S')
+            if (Board[x, y] == 'S') 
             {
-                Board[x, y] = 'X';
+                Board[x, y] = 'X'; 
                 foreach (var ship in Ships)
                 {
                     if (ship.Coordinates.Contains((x, y)))
@@ -91,7 +93,10 @@
                     }
                 }
             }
-            Board[x, y] = 'O';
+            else if (Board[x, y] == '~')
+            {
+                Board[x, y] = 'O'; 
+            }
             return false;
         }
         public void TakeTurn(Grid enemyGrid)

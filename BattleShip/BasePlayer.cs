@@ -1,8 +1,10 @@
-﻿namespace Battleship
+﻿using System.Data.Common;
+
+namespace Battleship
 {
     class BasePlayer
     {
-        private Grid grid;
+        protected Grid grid;
         private Random rand;
 
         public BasePlayer()
@@ -12,17 +14,17 @@
             PlaceShips();
         }
 
-        public void PlaceShips()
+        public virtual void PlaceShips()
         {
-            List<Ship> shipsToPlace = new List<Ship>();
+            List<Ship> shipsToPlace = new List<Ship>
             {
-                new Ship("Carrier",5);
-                new Ship("BattleShip", 4);
-                new Ship("Cruiser", 3);
-                new Ship("Submarine", 3);
-                new Ship("Destroyer", 2);
+                new Ship("Carrier", 5),
+                new Ship("BattleShip", 4),
+                new Ship("Cruiser", 3),
+                new Ship("Submarine", 3),
+                new Ship("Destroyer", 2)
             };
-            foreach(var ship in shipsToPlace)
+            foreach (var ship in shipsToPlace)
             {
                 bool placed = false;
                 while(!placed)
@@ -30,6 +32,7 @@
                     int x = rand.Next(10);
                     int y = rand.Next(10);
                     string direction = rand.Next(2) == 0 ? "H" : "V";
+                    placed = grid.PlaceShip(ship, x, y, direction);
                 }
             }
         }
