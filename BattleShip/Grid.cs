@@ -94,7 +94,28 @@
             Board[x, y] = 'O';
             return false;
         }
-
+        public void TakeTurn(Grid enemyGrid)
+        {
+            bool validShot = false;
+            while(!validShot)
+            {
+                Console.WriteLine("\n Enter a row (A-J): ");
+                char rowChar = Console.ReadKey().KeyChar;
+                int row = rowChar - 'A';
+                Console.WriteLine("Enter a column (0-9): ");
+                int column = int.Parse(Console.ReadLine());
+                if(enemyGrid.MakeGuess(row, column))
+                {
+                    Console.WriteLine("\n Hit!");
+                    validShot = true;
+                }
+                else
+                {
+                    Console.WriteLine("\n Miss!");
+                    validShot = false;
+                }
+            }
+        }
         public bool CheckWin()
         {
             foreach (var ship in Ships)
