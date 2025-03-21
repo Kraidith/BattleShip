@@ -6,7 +6,7 @@ namespace Battleship
     {
         private char[,] Board;
         public List<Ship> Ships;
-        private (int,int) BoardDimensions = (10, 10);
+        private (int, int) BoardDimensions = (10, 10);
         public Grid()
         {
             Board = new char[BoardDimensions.Item1, BoardDimensions.Item2];
@@ -31,9 +31,9 @@ namespace Battleship
                 }
                 for (int j = 0; j < BoardDimensions.Item2; j++)
                 {
-                    if(j == 0)
+                    if (j == 0)
                     {
-                        Console.Write(startLetter[i] +" ");
+                        Console.Write(startLetter[i] + " ");
                     }
                     char displayChar = Board[i, j];
                     if (hideShips && displayChar == 'S')
@@ -81,9 +81,9 @@ namespace Battleship
 
         public bool MakeGuess(int x, int y)
         {
-            if (Board[x, y] == 'S') 
+            if (Board[x, y] == 'S')
             {
-                Board[x, y] = 'X'; 
+                Board[x, y] = 'X';
                 foreach (var ship in Ships)
                 {
                     if (ship.Coordinates.Contains((x, y)))
@@ -95,32 +95,58 @@ namespace Battleship
             }
             else if (Board[x, y] == '~')
             {
-                Board[x, y] = 'O'; 
+                Board[x, y] = 'O';
             }
             return false;
         }
         public void TakeTurn(Grid enemyGrid)
         {
             bool validShot = false;
-            while(!validShot)
+
+            while (!validShot)
             {
-                Console.WriteLine("\n Enter a row (A-J): ");
-                char rowChar = Console.ReadKey().KeyChar;
-                int row = rowChar - 'A';
-                Console.WriteLine("Enter a column (0-9): ");
-                int column = int.Parse(Console.ReadLine());
-                if(enemyGrid.MakeGuess(row, column))
+                char rowChar;
+                int row = -1;
+
+                do
                 {
-                    Console.WriteLine("\n Hit!");
+                    Console.WriteLine("\nEnter a row (A-J): ");
+                    rowChar = char.ToUpper(Console.ReadKey().KeyChar);
+                    Console.WriteLine();
+
+                    if (rowChar >= 'A' && rowChar <= 'J')
+                    {
+                        row = rowChar - 'A';
+                    }
+                    else
+                    {
+                        Console.WriteLine("Invalid row. Try Again.");
+                    }
+                } while (row < 0 || row > 9); 
+
+                Console.WriteLine("Enter a column (0-9): ");
+                int column;
+
+                while (!int.TryParse(Console.ReadLine(), out column) || column < 0 || column > 9) // ✅ Fix column validation
+                {
+                    Console.WriteLine("Invalid input. Enter a number between 0-9.");
+                }
+
+                if (enemyGrid.MakeGuess(row, column)) 
+                {
+                    Console.WriteLine("\nHit!");
                     validShot = true;
                 }
                 else
                 {
-                    Console.WriteLine("\n Miss!");
-                    validShot = false;
+                    Console.WriteLine("\nMiss!");
                 }
             }
         }
+
+
+
+
         public bool CheckWin()
         {
             foreach (var ship in Ships)
